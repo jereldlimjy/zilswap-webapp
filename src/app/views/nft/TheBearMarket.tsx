@@ -190,7 +190,7 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         background: "#FF5252",
         "& .MuiTypography-root": {
             color: '#511500',
-            lineHeight: "32px"
+            lineHeight: "45px"
         },
     },
     callMissedOutgoingIcon: {
@@ -719,6 +719,7 @@ const TheBearMarket: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
                         <AccordionDetails>
                             <Text className={classes.answer}>
                                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, quas. Aliquid fugit maiores odit, quas soluta facere molestiae rem vitae dolores quibusdam quisquam asperiores voluptates dicta excepturi tempora, itaque neque?
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat iusto nam eos. Quas architecto porro repellat ut explicabo veniam vero labore repellendus, sed qui magnam ducimus consequuntur ea animi dolorum.
                             </Text>
                         </AccordionDetails>
                     </Accordion>
@@ -754,7 +755,7 @@ const TheBearMarket: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
 
             {/* Footer */}
             <footer className={classes.footer}>
-                <Box display="flex" flexDirection="column" alignItems="center" py={3}>
+                <Box display="flex" flexDirection="column" alignItems="center" my={4}>
                     <Text variant="h1">(Placeholder)</Text>
                     <Text variant="h1">TheBearMarket</Text>
                     <Text variant="h1">All Rights Reserved 2021</Text>
