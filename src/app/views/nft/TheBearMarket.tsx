@@ -22,7 +22,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ObservedTx } from "zilswap-sdk";
 import { Network } from "zilswap-sdk/lib/constants";
-import bearSvg from "./asset/hero-bear.svg"
+import bearSvg from "./asset/hero-bear.svg";
+import { ReactComponent as GummyBear } from "./asset/gummy-bear.svg";
+import { ReactComponent as GummyBearText } from "./asset/gummy-bear-text.svg";
 
 const useStyles = makeStyles((theme: AppTheme) => ({
     root: {
@@ -51,6 +53,19 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         "& .MuiListItemText-primary": {
             fontSize: "20px",
             lineHeight: "20px"
+        },
+        "& .MuiListItem-gutters": {
+            paddingLeft: 0,
+            paddingRight: 0
+        },
+        "& .MuiListItemIcon-root": {
+            [theme.breakpoints.down('xs')]: {
+                minWidth: "40px"
+            }
+        },
+        "& .MuiList-padding": {
+            paddingTop: 0,
+            paddingBottom: 0
         }
     },
     actionButton: {
@@ -75,6 +90,9 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         '&.Mui-focused': {
             caretColor: "#FF5252",
         },
+        [theme.breakpoints.down('md')]: {
+            alignSelf: "center"
+        }
     },
     brand: {
         fontSize: "32px",
@@ -118,6 +136,9 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         "&:hover": {
             backgroundColor: "#FF5252"
         },
+        [theme.breakpoints.down('md')]: {
+            alignSelf: "center"
+        }
     },
     progress: {
         color: "#FFFFFF",
@@ -136,19 +157,21 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         flexDirection: "column"
     },
     heroContainer: {
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('md')]: {
             flexDirection: "column-reverse",
-            alignItems: "center"
         }
     },
     heroText: {
         color: "#511500",
         fontSize: "35px",
-        lineHeight: "42px"
+        lineHeight: "42px",
+        [theme.breakpoints.down('md')]: {
+            textAlign: "center"
+        }
     },
     bearMarketText: {
         fontSize: "48px",
-        lineHeight: "56px"
+        lineHeight: "56px",
     },
     aboutSection: {
         background: "#84C9FD",
@@ -156,7 +179,7 @@ const useStyles = makeStyles((theme: AppTheme) => ({
     },
     aboutContainer: {
         paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8)
+        paddingBottom: theme.spacing(8),
     },
     welcomeBox: {
         backgroundColor: "#5B64E3",
@@ -164,7 +187,7 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         border: "5px solid rgba(222, 255, 255, 0.1)",
         padding: theme.spacing(6, 10),
         [theme.breakpoints.down('xs')]: {
-            padding: theme.spacing(6, 4),
+            padding: theme.spacing(3, 4),
         }
     },
     reasonsBox: {
@@ -173,13 +196,25 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         border: "5px solid rgba(222, 255, 255, 0.1)",
         padding: theme.spacing(6, 10),
         [theme.breakpoints.down('xs')]: {
-            padding: theme.spacing(6, 4),
+            padding: theme.spacing(3, 4),
         }
     },
     gummyBearBox: {
         backgroundColor: "#511500",
         borderRadius: "20px",
-        height: 300
+        marginBottom: theme.spacing(12),
+        [theme.breakpoints.down('md')]: {
+           flexDirection: "column",
+        //    paddingLeft: theme.spacing(4),
+        //    paddingRight: theme.spacing(4),
+           paddingBottom: theme.spacing(8),
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginBottom: theme.spacing(0)
+        }
+    },
+    gummyBear: {
+
     },
     faqSection: {
         background: "#00132F",
@@ -187,13 +222,20 @@ const useStyles = makeStyles((theme: AppTheme) => ({
     },
     faqContainer: {
         paddingTop: theme.spacing(6),
-        paddingBottom: theme.spacing(14)
+        paddingBottom: theme.spacing(14),
+        [theme.breakpoints.down('xs')]: {
+            paddingBottom: theme.spacing(6),
+        }
     },
     footer: {
         background: "#FF5252",
         "& .MuiTypography-root": {
             color: '#511500',
-            lineHeight: "45px"
+            lineHeight: "45px",
+            [theme.breakpoints.down('xs')]: {
+                fontSize: "20px",
+                lineHeight: "40px"
+            }
         },
     },
     callMissedOutgoingIcon: {
@@ -223,26 +265,46 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         color: "#FFFFFF",
         fontSize: "50px",
         lineHeight: "52px",
-        marginBottom: theme.spacing(1.2)
+        marginBottom: theme.spacing(1.2),
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "35px",
+            lineHeight: "35px",
+        }
     },
     aboutText: {
         color: "#FFFFFF",
-        fontSize: "18px",
-        lineHeight: "28px"
+        fontSize: "20px",
+        lineHeight: "30px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "16px",
+            lineHeight: "26px",
+        }
     },
     aboutSubheader: {
         color: "#FFFFFF",
-        fontSize: "26px",
-        lineHeight: "28px"
+        fontSize: "25px",
+        lineHeight: "28px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "16px",
+            lineHeight: "18px",
+        }
     },
     aboutSubtitle: {
         color: "#FFFFFF",
         fontSize: "16px",
-        lineHeight: "26px"
+        lineHeight: "26px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "14px",
+            lineHeight: "24x",
+        }
     },
     aboutDivider: {
         marginLeft: theme.spacing(3),
-        marginRight: theme.spacing(3)
+        marginRight: theme.spacing(3),
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        }
     },
     doneOutlineIcon: {
         color: "#ADFF00"
@@ -252,33 +314,57 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         color: "#511500",
         lineHeight: "50px",
         wordBreak: "break-word",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "35px",
+            lineHeight: "45px"
+        }
     },
     orangeText: {
         color: "#FF5252"
     },
     adoptBanner: {
         backgroundColor: "#FF5252",
-        padding: theme.spacing(6)
+        padding: theme.spacing(6),
     },
     adoptBannerText: {
         color: "#511500",
         fontSize: "50px",
-        lineHeight: "70px"
+        lineHeight: "60px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "35px",
+            lineHeight: "40px"
+        }
     },
     adoptButton: {
         backgroundColor: "#511500",
         height: 130,
         width: 350,
-        borderRadius: "35px",
+        borderRadius: "40px",
         border: "20px solid #FF5252",
         "&:hover": {
             backgroundColor: "#511500"
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
         }
     },
     adoptButtonText: {
         color: "#FFFFFF",
         fontSize: "35px",
         lineHeight: "50px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "30px",
+            lineHeight: "45px"
+        }
+    },
+    faqHeader: {
+        color: "#FFFFFF", 
+        fontSize: "100px", 
+        lineHeight: "120px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "50px",
+            lineHeight: "50px"
+        }
     },
     accordion: {
         boxShadow: "none",
@@ -290,6 +376,9 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         },
         "& .MuiAccordionSummary-root": {
             padding: theme.spacing(2.5, 5),
+            [theme.breakpoints.down('xs')]: {
+                padding: theme.spacing(2.5, 4),
+            }
         },
         "& .MuiAccordionSummary-expandIcon": {
             transition: "none"
@@ -299,7 +388,10 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         },
         "& .MuiAccordionDetails-root": {
             padding: theme.spacing(0, 5, 2.5),
-            display: "inherit"
+            display: "inherit",
+            [theme.breakpoints.down('xs')]: {
+                padding: theme.spacing(0, 4, 2.5),
+            }
         },
         "& .MuiAccordionSummary-content.Mui-expanded": {
             margin: 0
@@ -309,37 +401,36 @@ const useStyles = makeStyles((theme: AppTheme) => ({
     question: {
         color: "#FFFFFF",
         fontSize: "35px",
-        lineHeight: "50px"
+        lineHeight: "50px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "25px",
+            lineHeight: "35px"
+        }
     },
     answer: {
         color: "#FFFFFF",
         fontSize: "20px",
-        lineHeight: "30px"
+        lineHeight: "30px",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "16px",
+            lineHeight: "26px",
+        }
     },
-    herobear: {
+    heroBear: {
         backgroundImage: `url(${bearSvg})`,
         backgroundRepeat: "no-repeat",
-        height: 1000,
-        width: 1000,
+        height: "80vh",
+        width: "40vw",
         backgroundPositionY: "100%",
+        backgroundPositionX: "center",
         backgroundSize: "contain",
-        [theme.breakpoints.down('lg')]: {
-            height: 900,
-            width: 900,
-        },
+        alignSelf: "flex-end",
         [theme.breakpoints.down('md')]: {
-            height: 700,
-            width: 700,
+            alignSelf: "center",
+            height: 450,
+            width: "90vw",
         },
-        [theme.breakpoints.down('sm')]: {
-            height: 500,
-            width: 500,
-        },
-        [theme.breakpoints.down('xs')]: {
-            height: "40vh",
-            width: "40vh",
-        }
-    }
+    },
 }));
 
 const CONTRACT_ADDR = "0xb9f08643a228a226ffbce6f2297f5c5ced612491";
@@ -561,10 +652,11 @@ const TheBearMarket: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
                 </AppBar>
                 <Box flexGrow={1} />
                 <Box display="flex" justifyContent="center" className={classes.heroContainer}>
-                    {/* Bear goes here */}
-                    <Box display="flex" className={classes.herobear} justifyContent="center" flexDirection="column" alignSelf="flex-end">
-                    </Box>
-                    <Box display="flex" flexDirection="column" alignSelf="flex-end" ml={3}>
+                    {/* TODO: Scale bear and text properly */}
+                    {/* explore using container to hold the 2 components */}
+                    <Box display="flex" className={classes.heroBear} justifyContent="center" flexDirection="column" />
+
+                    <Box display="flex" flexDirection="column" alignSelf="center">
                         <Text variant="h1" className={classes.heroText}>
                             The ONLY bear <br />
                             you'll need to <br />
@@ -642,14 +734,14 @@ const TheBearMarket: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
                                 <ListItemIcon>
                                     <DoneOutlineIcon className={classes.doneOutlineIcon} />
                                 </ListItemIcon>
-                                <ListItemText primary="hello world" />
+                                <ListItemText primary="hello world i am testing for very long reasons on mobile view" />
                             </ListItem>
 
                             <ListItem>
                                 <ListItemIcon>
                                     <DoneOutlineIcon className={classes.doneOutlineIcon} />
                                 </ListItemIcon>
-                                <ListItemText primary="hello world" />
+                                <ListItemText primary="hello world this is another long reason to check how they stack up. This should be longer than the first one." />
                             </ListItem>
 
                             <ListItem>
@@ -678,10 +770,9 @@ const TheBearMarket: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
                     <Text marginTop={10} marginBottom={10} className={classes.luckyText} align="center">AND IF YOU’RE <span className={classes.orangeText}>{"$(!*#&^{@)!!@[**#!"}</span> LUCKY...</Text>
 
                     {/* Legendary gummy bear */}
-                    <Box display="flex" justifyContent="center" alignItems="center" mb={12} className={classes.gummyBearBox}>
-                        <Text variant="h1" align="center">
-                            insert gummy bear here
-                        </Text>
+                    <Box display="flex" justifyContent="center" alignItems="center" className={classes.gummyBearBox}>
+                        <GummyBear className={classes.gummyBear} />
+                        <GummyBearText />
                     </Box>
                 </Container>
             </section>
@@ -705,7 +796,7 @@ const TheBearMarket: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
 
                 {/* FAQs */}
                 <Container maxWidth="md" className={classes.faqContainer}>
-                    <Text align="center" marginBottom={3} style={{ color: "#FFFFFF", fontSize: "100px", lineHeight: "120px" }}>FAQs</Text>
+                    <Text align="center" marginBottom={3} className={classes.faqHeader}>FAQs</Text>
 
                     <Accordion className={classes.accordion} expanded={expanded === 'question1'} onChange={handleAccordionChange('question1')}>
                         <AccordionSummary
