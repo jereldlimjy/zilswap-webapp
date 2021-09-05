@@ -19,8 +19,7 @@ import { NavigationContent } from "./components";
 import navigationConfig from "./navigationConfig";
 
 const useStyles = makeStyles((theme: AppTheme) => ({
-  root: {
-  },
+  root: {},
   paper: {
     display: "flex",
     flexDirection: "column",
@@ -46,45 +45,48 @@ const useStyles = makeStyles((theme: AppTheme) => ({
       minWidth: 0,
       padding: theme.spacing(1.5),
       color: "#A4A4A4",
-      '& svg': {
+      "& svg": {
         height: theme.spacing(2),
         width: theme.spacing(2),
-      }
-    }
+      },
+    },
   },
   footer: {
     display: "flex",
     flexDirection: "column",
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   badge: {
     height: "auto",
-    padding: theme.spacing(.5, 1.5),
-    borderRadius: theme.spacing(.5),
+    padding: theme.spacing(0.5, 1.5),
+    borderRadius: theme.spacing(0.5),
     "& .MuiChip-label": {
       paddingLeft: 0,
       paddingRight: 0,
     },
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: "0px 22px",
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     minHeight: "49px",
-    borderBottom: theme.palette.type === "dark" ? "1px solid #003340" : "1px solid transparent",
-    backgroundColor: theme.palette.toolbar.main
+    borderBottom:
+      theme.palette.type === "dark"
+        ? "1px solid #003340"
+        : "1px solid transparent",
+    backgroundColor: theme.palette.toolbar.main,
   },
   price: {
     color: theme.palette.primary.dark,
-    fontSize: 16
+    fontSize: 16,
   },
   currencyLogo: {
     height: 24,
     width: 24,
-    marginRight: theme.spacing(.3),
-    marginLeft: theme.spacing(.5)
-  }
+    marginRight: theme.spacing(0.3),
+    marginLeft: theme.spacing(0.5),
+  },
 }));
 
 const NavDrawer: React.FC<DrawerProps> = (props: any) => {
@@ -92,7 +94,7 @@ const NavDrawer: React.FC<DrawerProps> = (props: any) => {
   const claimEnabled = useClaimEnabled();
   const classes = useStyles();
   const valueCalculators = useValueCalculators();
-  const tokenState = useSelector<RootState, TokenState>(state => state.token);
+  const tokenState = useSelector<RootState, TokenState>((state) => state.token);
   const network = useNetwork();
 
   const zapTokenValue: BigNumber = useMemo(() => {
@@ -100,12 +102,19 @@ const NavDrawer: React.FC<DrawerProps> = (props: any) => {
     const zapToken = tokenState.tokens[zapContractAddr];
     if (!zapToken) return BIG_ZERO;
 
-    return valueCalculators.amount(tokenState.prices, zapToken, BIG_ONE).shiftedBy(zapToken.decimals);
+    return valueCalculators
+      .amount(tokenState.prices, zapToken, BIG_ONE)
+      .shiftedBy(zapToken.decimals);
   }, [network, tokenState.prices, tokenState.tokens, valueCalculators]);
 
   const zwapAddress = TOKEN_CONTRACT[network];
   return (
-    <Drawer PaperProps={{ className: classes.paper }} onClose={onClose} {...rest} className={cls(classes.root, className)}>
+    <Drawer
+      PaperProps={{ className: classes.paper }}
+      onClose={onClose}
+      {...rest}
+      className={cls(classes.root, className)}
+    >
       <div className={classes.drawerHeader}>
         <IconButton onClick={onClose}>
           <CloseSVG />
@@ -114,9 +123,15 @@ const NavDrawer: React.FC<DrawerProps> = (props: any) => {
       <Box className={classes.content}>
         {navigationConfig.map((navigation, listIndex) => (
           <List key={listIndex}>
-            {navigation.pages.filter(navigation => navigation.show || claimEnabled).map((page, index) => (
-              <NavigationContent onClose={onClose} key={index} navigation={page} />
-            ))}
+            {navigation.pages
+              .filter((navigation) => navigation.show || claimEnabled)
+              .map((page, index) => (
+                <NavigationContent
+                  onClose={onClose}
+                  key={index}
+                  navigation={page}
+                />
+              ))}
           </List>
         ))}
       </Box>
@@ -124,7 +139,11 @@ const NavDrawer: React.FC<DrawerProps> = (props: any) => {
         <Box display="flex" justifyContent="space-around">
           {/* ZWAP Price */}
           <Box display="flex" alignItems="center">
-            <CurrencyLogo className={classes.currencyLogo} currency="ZWAP" address={zwapAddress} />
+            <CurrencyLogo
+              className={classes.currencyLogo}
+              currency="ZWAP"
+              address={zwapAddress}
+            />
             <Text variant="h6" className={classes.price}>
               &nbsp;$ {zapTokenValue.toFormat(2)}
             </Text>
