@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: AppTheme) => ({
   },
   placeholderCell: {
     borderBottom: "none !important",
-    width: theme.spacing(7.5),
+    padding: `${theme.spacing(2)}px !important`,
   },
   overlay: {
     position: "absolute",
@@ -67,26 +67,11 @@ const useStyles = makeStyles((theme: AppTheme) => ({
   },
   headerBox: {
     display: "flex",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: theme.spacing(6.25, 7.5, 4),
+    padding: theme.spacing(4, 7, 2),
     [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      alignItems: "normal",
-      paddingBottom: theme.spacing(2),
-    }
-  },
-  headerText: {
-    fontFamily: "'Raleway', sans-serif",
-    fontWeight: 700,
-    fontSize: "30px",
-    lineHeight: "35px",
-  },
-  filterBox: {
-    display: "flex",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      paddingTop: theme.spacing(1.5),
+      
     }
   }
 }));
@@ -166,6 +151,16 @@ const PoolTransactions: React.FC<Props> = (props: Props) => {
         <Box display="flex" marginTop={4} marginBottom={2}>
           {/* <Button>XXX</Button>
             <Button>YYY</Button> */}
+
+          <Box flex={1} />
+
+          <FormControlLabel
+            label={<Text color="textSecondary">Your Transactions Only</Text>}
+            control={(
+              <Checkbox color="primary"
+                checked={!!queryOpts.address}
+                onChange={onChangeShowAll} />
+            )} />
         </Box>
 
         {!!queryError && (
@@ -174,18 +169,8 @@ const PoolTransactions: React.FC<Props> = (props: Props) => {
 
         <Paper className={classes.tableSurface}>
           <Box className={classes.headerBox}>
-            <Text className={classes.headerText}>All Transactions</Text>
-
-            <Box className={classes.filterBox}>
-              <FormControlLabel
-              label={<Text color="textSecondary">Your Transactions Only</Text>}
-              control={(
-                <Checkbox color="primary"
-                  checked={!!queryOpts.address}
-                  onChange={onChangeShowAll} />
-              )} />
-              <TokenFilter onFilterChange={onFilterChange} />
-            </Box>
+            <Text variant="h2">All Transactions</Text>
+            <TokenFilter onFilterChange={onFilterChange} />
           </Box>
           <TableContainer>
             {queryLoading && (
