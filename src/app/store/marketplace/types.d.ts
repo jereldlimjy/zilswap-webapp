@@ -195,6 +195,7 @@ export interface CollectionFilter {
   owner: string | null;
   likedBy: string | null;
   pagination?: PaginationInfo;
+  infinite?: boolean;
 }
 
 export interface SaleType {
@@ -205,4 +206,8 @@ export interface SaleType {
 export interface ArkPendingTx {
   txHash: string;
   chequeHash: string;
+}
+
+export interface QueryNftResult extends PaginatedList<Nft> {
+  traits?: SimpleMap<TraitType>;
 }

@@ -5,7 +5,7 @@ import BigNumber from "bignumber.js";
 import dayjs from "dayjs";
 import { Zilswap } from "zilswap-sdk";
 import { Network, ZIL_HASH } from "zilswap-sdk/lib/constants";
-import { Cheque, Collection, CollectionWithStats, Nft, OAuth, Profile, SimpleCheque, TraitType, PaginationInfo } from "app/store/types";
+import { Cheque, Collection, CollectionWithStats, Nft, OAuth, Profile, SimpleCheque, TraitType, QueryNftResult, PaginatedList } from "app/store/types";
 import { bnOrZero, SimpleMap, toHumanNumber } from "app/utils";
 import { HTTP, logger } from "core/utilities";
 import { ConnectedWallet } from "core/wallet";
@@ -142,7 +142,8 @@ export class ArkClient {
   }
 
   listCollection = async (params?: ArkClient.ListCollectionParams) => {
-    const url = this.http.path("collection/list", null, params);
+    const { limit = 100, ...rest } = params ?? {};
+    const url = this.http.path("collection/list", null, { limit, ...rest });
     const result = await this.http.get({ url });
     const output = await result.json();
     await this.checkError(output);
@@ -188,11 +189,11 @@ export class ArkClient {
     const result = await this.http.get({ url });
     const output = await result.json();
     await this.checkError(output);
-    return output;
+    return output.result as PaginatedList<Nft>;
   }
 
   searchCollection = async (address: string, params?: ArkClient.SearchCollectionParams):
-    Promise<{ tokens: ReadonlyArray<Nft>, traits: SimpleMap<TraitType>, meta: PaginationInfo }> => {
+    Promise<QueryNftResult> => {
     if (address.startsWith("zil1"))
       address = fromBech32Address(address).toLowerCase();
     const url = this.http.path("collection/search", { address }, params);
@@ -201,7 +202,7 @@ export class ArkClient {
     await this.checkError(json);
 
     const traits = json.result.extras.traits as TraitsResponse
-    return { traits: parseTraits(traits), tokens: json.result.entries, meta: json.result.meta }
+    return { traits: parseTraits(traits), entries: json.result.entries, meta: json.result.meta }
   }
 
   updateProfile = async (address: string, data: Omit<Profile, "id" | "address">, oAuth: OAuth) => {
@@ -404,7 +405,7 @@ export class ArkClient {
       type: "Uint128",
       value: amount.toString(),
     }];
-    
+
     const callParams = {
       amount: new BN(0),
       gasPrice: new BN(minGasPrice),
